@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>금융 계산기</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <a href="../index.html" class="home-button">🏠 홈으로</a>
+    <h1>금융 계산기</h1>
+
+    <!-- 환율 계산기 -->
+    <div class="calculator">
+        <h2>환율 변환기</h2>
+        <label for="amount">금액:</label>
+        <input type="number" id="amount" placeholder="금액 입력">
+
+        <label for="fromCurrency">출발 통화:</label>
+        <select id="fromCurrency"></select>
+
+        <label for="toCurrency">변환 통화:</label>
+        <select id="toCurrency"></select>
+
+        <button onclick="convertCurrency()">변환</button>
+        <p id="exchangeResult"></p>
+    </div>
+
+    <!-- 부가가치세 계산기 -->
+    <div class="vat-calculator">
+        <h2>부가가치세 계산기</h2>
+        <label for="vatAmount">금액 (원):</label>
+        <input type="number" id="vatAmount" placeholder="금액을 입력하세요" required>
+
+        <label for="vatRate">부가가치세 비율 (%):</label>
+        <input type="number" id="vatRate" placeholder="세율을 입력하세요" required>
+
+        <button onclick="calculateVAT()">계산하기</button>
+
+        <div class="result" id="vatResult"></div>
+    </div>
+
+    <script>
+        // 환율 계산기 코드
+        const API_KEY = "89b16ac2c6fe05a6718bed24"; // 🔥 너의 API 키를 여기에 입력
+        const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
+
+        let currencyRates = {};
+
+        async function fetchExchangeRates() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                currencyRates = data.conversion_rates;
+                populateCurrencyOptions();
+            } catch (error) {
+                console.error("환율 정보를 가져오는 데 실패했습니다.", error);
+            }
+        }
+
+        function populateCurrencyOptions() {
+            const fromCurrency = document.getElementById("fromCurrency");
+            const toCurrency = document.getElementById("toCurrency");
+
+            Object.keys(currencyRates).forEach(currency => {
+                let option1 = new Option(currency, currency);
+                let option2 = new Option(currency, currency);
+                fromCurrency.add(option1);
+                toCurrency.add(option2);
+            });
+
+            fromCurrency.value = "USD"; // 기본값 설정
+            toCurrency.value = "KRW";   // 기본값 설정
+        }
+
+        function convertCurrency() {
+            let amount = parseFloat(document.getElementById("amount").value);
+            let fromCurrency = document.getElementById("fromCurrency").value;
+            let toCurrency = document.getElementById("toCurrency").value;
+            let resultDisplay = document.getElementById("exchangeResult");
+
+            if (isNaN(amount) || amount <= 0) {
+                resultDisplay.innerText = "올바른 금액을 입력하세요.";
+                return;
+            }
+
+            if (!currencyRates[fromCurrency] || !currencyRates[toCurrency]) {
+                resultDisplay.innerText = "환율 정보를 불러오지 못했습니다.";
+                return;
+            }
+
+            let exchangeRate = currencyRates[toCurrency] / currencyRates[fromCurrency];
+            let convertedAmount = (amount * exchangeRate).toFixed(2);
+
+            // 숫자에 쉼표 추가
+            let formattedAmount = amount.toLocaleString();
+            let formattedConvertedAmount = Number(convertedAmount).toLocaleString();
+
+            resultDisplay.innerText = `${formattedAmount} ${fromCurrency} → ${formattedConvertedAmount} ${toCurrency}`;
+        }
+
+        // 페이지 로드 시 환율 데이터 가져오기
+        fetchExchangeRates();
+
+        // 부가가치세 계산기 코드
+        function calculateVAT() {
+            const amount = parseFloat(document.getElementById('vatAmount').value);
+            const vatRate = parseFloat(document.getElementById('vatRate').value);
+            const resultDisplay = document.getElementById('vatResult');
+
+            if (isNaN(amount) || isNaN(vatRate)) {
+                resultDisplay.innerText = "금액과 부가가치세 비율을 정확하게 입력해주세요.";
+                return;
+            }
+
+            // 세금 제외 가격
+            const excludedPrice = amount / (1 + vatRate / 100);
+            // 세금 포함 가격
+            const includedPrice = amount * (1 + vatRate / 100);
+
+            resultDisplay.innerHTML = `
+                <p>부가가치세 제외 가격: ${excludedPrice.toFixed(2)} 원</p>
+                <p>부가가치세 포함 가격: ${includedPrice.toFixed(2)} 원</p>
+            `;
+        }
+    </script>
+</body>
+</html>

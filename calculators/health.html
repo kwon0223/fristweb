@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>건강 계산기</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <a href="../index.html" class="home-button">🏠 홈으로</a>
+    <h1>체중 계산기</h1>
+    
+    <!-- BMI 계산기 -->
+    <div class="calculator">
+        <h2>BMI 계산기</h2>
+        <label for="height">키 (cm):</label>
+        <input type="number" id="height" placeholder="키 입력">
+        <label for="weight">몸무게 (kg):</label>
+        <input type="number" id="weight" placeholder="몸무게 입력">
+        <button onclick="calculateBMI()">계산</button>
+        <p id="bmi-result"></p>
+
+        <!-- 📌 BMI 기준표 추가된 부분 -->
+        <div class="bmi-table">
+            <h3>📌 비만도 기준</h3>
+            <table border="1">
+                <tr>
+                    <th>BMI</th>
+                    <th>판정</th>
+                </tr>
+                <tr>
+                    <td>18.5 미만</td>
+                    <td>저체중 😕</td>
+                </tr>
+                <tr>
+                    <td>18.5 ~ 22.9</td>
+                    <td>정상 🙂</td>
+                </tr>
+                <tr>
+                    <td>23.0 ~ 24.9</td>
+                    <td>과체중 😐</td>
+                </tr>
+                <tr>
+                    <td>25.0 ~ 29.9</td>
+                    <td>비만 😟</td>
+                </tr>
+                <tr>
+                    <td>30.0 이상</td>
+                    <td>고도비만 😨</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- BMR 계산기 -->
+    <div class="calculator">
+        <h2>BMR 계산기</h2>
+        <label for="age">나이:</label>
+        <input type="number" id="age" placeholder="나이 입력">
+        <label for="gender">성별:</label>
+        <select id="gender">
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+        </select>
+        <label for="bmr-height">키 (cm):</label>
+        <input type="number" id="bmr-height" placeholder="키 입력">
+        <label for="bmr-weight">몸무게 (kg):</label>
+        <input type="number" id="bmr-weight" placeholder="몸무게 입력">
+        <button onclick="calculateBMR()">계산</button>
+        <p id="bmr-result"></p>
+    </div>
+    
+    <script>
+        function calculateBMI() {
+            let height = document.getElementById('height').value / 100;
+            let weight = document.getElementById('weight').value;
+            if (height > 0 && weight > 0) {
+                let bmi = (weight / (height * height)).toFixed(2);
+                document.getElementById('bmi-result').innerText = `당신의 BMI: ${bmi}`;
+            } else {
+                document.getElementById('bmi-result').innerText = "올바른 값을 입력하세요.";
+            }
+        }
+        
+        function calculateBMR() {
+            let age = document.getElementById('age').value;
+            let gender = document.getElementById('gender').value;
+            let height = document.getElementById('bmr-height').value;
+            let weight = document.getElementById('bmr-weight').value;
+            let bmr;
+            
+            if (age > 0 && height > 0 && weight > 0) {
+                if (gender === "male") {
+                    bmr = 88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age);
+                } else {
+                    bmr = 447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age);
+                }
+                document.getElementById('bmr-result').innerText = `당신의 BMR: ${bmr.toFixed(2)} kcal`;
+            } else {
+                document.getElementById('bmr-result').innerText = "올바른 값을 입력하세요.";
+            }
+        }
+    </script>
+</body>
+</html>

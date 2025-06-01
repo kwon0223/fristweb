@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코딩 계산기</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <a href="../index.html" class="home-button">🏠 홈으로</a>
+    <h1>코딩 계산기</h1>
+
+    <!-- 진수 변환기 -->
+    <div class="calculator">
+        <h2>진수 변환기</h2>
+        <label for="decimalInput">10진수 입력:</label>
+        <input type="number" id="decimalInput" placeholder="예: 255">
+        <button onclick="convertBases()">변환</button>
+        <p id="binaryOutput"></p>
+        <p id="octalOutput"></p>
+        <p id="hexOutput"></p>
+    </div>
+
+    <!-- 문자 ↔ ASCII/유니코드 변환기 -->
+    <div class="calculator">
+        <h2>문자 ↔ ASCII/유니코드 변환기</h2>
+        <label for="charInput">문자 입력:</label>
+        <input type="text" id="charInput" maxlength="1" placeholder="예: A">
+        <button onclick="convertCharCode()">변환</button>
+        <p id="asciiResult"></p>
+
+        <label for="codeInput">코드 입력:</label>
+        <input type="number" id="codeInput" placeholder="예: 65">
+        <button onclick="convertCodeToChar()">문자 보기</button>
+        <p id="charResult"></p>
+    </div>
+
+    <!-- 문자열 길이 계산기 -->
+    <div class="calculator">
+        <h2>문자열 길이 계산기</h2>
+        <label for="stringInput">문자열 입력:</label>
+        <input type="text" id="stringInput" placeholder="예: Hello World">
+        <label><input type="checkbox" id="excludeSpaces"> 공백 제외</label>
+        <button onclick="calculateLength()">계산</button>
+        <p id="lengthResult"></p>
+    </div>
+
+    <script>
+        // 진수 변환기
+        function convertBases() {
+            const decimal = parseInt(document.getElementById("decimalInput").value);
+            if (isNaN(decimal)) {
+                document.getElementById("binaryOutput").innerText = "올바른 숫자를 입력하세요.";
+                return;
+            }
+            document.getElementById("binaryOutput").innerText = `2진수: ${decimal.toString(2)}`;
+            document.getElementById("octalOutput").innerText = `8진수: ${decimal.toString(8)}`;
+            document.getElementById("hexOutput").innerText = `16진수: ${decimal.toString(16).toUpperCase()}`;
+        }
+
+        // 문자 -> 코드 변환
+        function convertCharCode() {
+            const char = document.getElementById("charInput").value;
+            if (char.length !== 1) {
+                document.getElementById("asciiResult").innerText = "한 글자만 입력하세요.";
+                return;
+            }
+            document.getElementById("asciiResult").innerText = `코드: ${char.charCodeAt(0)}`;
+        }
+
+        // 코드 -> 문자 변환
+        function convertCodeToChar() {
+            const code = parseInt(document.getElementById("codeInput").value);
+            if (isNaN(code)) {
+                document.getElementById("charResult").innerText = "올바른 코드를 입력하세요.";
+                return;
+            }
+            document.getElementById("charResult").innerText = `문자: ${String.fromCharCode(code)}`;
+        }
+
+        // 문자열 길이 계산기
+        function calculateLength() {
+            let str = document.getElementById("stringInput").value;
+            const excludeSpaces = document.getElementById("excludeSpaces").checked;
+            if (excludeSpaces) {
+                str = str.replace(/\s/g, "");
+            }
+            document.getElementById("lengthResult").innerText = `문자 수: ${str.length}`;
+        }
+    </script>
+</body>
+</html>

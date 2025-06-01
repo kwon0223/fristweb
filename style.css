@@ -1,0 +1,170 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+    flex-direction: column;
+}
+
+/* 메인 컨테이너 */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+/* 제목 박스 */
+.title-box {
+    background: #222;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* 링크 목록 */
+.calculator-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 개별 링크 스타일 */
+.calculator-links a {
+    font-size: 20px;
+    text-decoration: none;
+    color: royalblue;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.calculator-links a:hover {
+    color: darkblue;
+}
+
+/* 푸터 스타일 */
+.footer {
+    margin-top: 20px;
+    background: #222;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0; /* 기본 마진 제거 */
+}
+
+/* 계산기 전체 박스 */
+.calculator {
+    width: 320px; /* 충분한 너비 확보 */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 입력창 스타일 */
+#display {
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    text-align: right;
+    padding: 10px;
+    border: none;
+    background: #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* 버튼 스타일 */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열 그리드 */
+    gap: 5px; /* 버튼 간격 */
+    width: 100%; /* 부모 요소 크기 맞추기 */
+    max-width: 320px; /* 계산기 크기에 맞춤 */
+}
+
+button {
+    width: 100%;
+    height: 60px; /* 버튼 크기 조정 */
+    font-size: 22px;
+    font-weight: bold;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* 연산자 버튼 스타일 */
+button:nth-child(4n) {
+    background: #ff9500;
+}
+
+button:nth-child(4n):hover {
+    background: #cc7700;
+}
+
+/* C, ← 버튼 스타일 */
+button:nth-child(1),
+button:nth-child(2) {
+    background: #d9534f;
+}
+
+button:nth-child(1):hover,
+button:nth-child(2):hover {
+    background: #b52b27;
+}
+
+/* 0 버튼을 넓게 설정 */
+.zero {
+    grid-column: span 2;
+}
+
+/* 홈 버튼 스타일 */
+.home-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
+.home-button:hover {
+    background: #0056b3;
+}
+
+
